@@ -63,7 +63,7 @@ public class RecipientIsXdAndNotSMIME extends GenericMatcher {
     public void init() {
         LOGGER.info("Initializing RecipientIsXdAndNotSMIME matcher");
 
-        ctx = new ClassPathXmlApplicationContext("contexts/STAMailet.xml");
+        ctx = new ClassPathXmlApplicationContext("contexts/XDMailet.xml");
         
         routingResolver = new RoutingResolverImpl(ctx.getBean(AddressService.class));
 

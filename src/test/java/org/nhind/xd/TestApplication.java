@@ -7,13 +7,11 @@ import org.nhindirect.gateway.springconfig.RouteResolverConfig;
 import org.nhindirect.gateway.streams.SmtpGatewayMessageSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @ComponentScan({"org.nhindirect.config", "org.nhind.config", "org.nhind.xd"})
-@EnableFeignClients({"org.nhind.config.rest.feign"})
 @Import({ConfigServiceClientConfig.class, DSNGeneratorConfig.class, DNSResolverConfig.class, RouteResolverConfig.class, SmtpGatewayMessageSource.class})
 public class TestApplication
 {
