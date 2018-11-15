@@ -41,9 +41,11 @@ import javax.mail.internet.MimeMessage;
 
 import junit.framework.TestCase;
 
+import org.apache.james.core.MailAddress;
 import org.apache.mailet.Mail;
-import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetConfig;
+import org.apache.mailet.PerRecipientHeaders;
+import org.apache.mailet.PerRecipientHeaders.Header;
 import org.nhind.testutils.MockMailetConfig;
 import org.nhindirect.xd.transform.MimeXdsTransformer;
 import org.nhindirect.xd.transform.impl.DefaultMimeXdsTransformer;
@@ -232,8 +234,7 @@ public class NHINDMailetTest extends TestCase {
             return null;
         }
 
-        @SuppressWarnings("rawtypes")
-		public Iterator getAttributeNames() {
+		public Iterator<String> getAttributeNames() {
             return null;
         }
 
@@ -258,10 +259,17 @@ public class NHINDMailetTest extends TestCase {
             return null;
         }
 
-        @SuppressWarnings("rawtypes")
-		public Collection getRecipients() 
+		public Collection<MailAddress> getRecipients() 
         {
-            return Arrays.asList("xd@address.com", "smtp@address.com");
+        	try
+        	{
+        		return Arrays.asList(new MailAddress("xd@address.com"), new MailAddress("smtp@address.com"));
+        	}
+        	catch (Exception e)
+        	{
+        		throw new RuntimeException(e);
+        	}
+        	
         }
 
         public String getRemoteAddr() 
@@ -325,6 +333,20 @@ public class NHINDMailetTest extends TestCase {
         protected Object clone() throws CloneNotSupportedException {
             throw new CloneNotSupportedException();
         }
+
+		@Override
+		public void addSpecificHeaderForRecipient(Header header, MailAddress recipient)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public PerRecipientHeaders getPerRecipientSpecificHeaders()
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
 
 }

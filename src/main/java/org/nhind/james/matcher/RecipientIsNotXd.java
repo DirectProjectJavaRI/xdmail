@@ -33,8 +33,8 @@ import java.util.Collection;
 
 import javax.mail.MessagingException;
 
+import org.apache.james.core.MailAddress;
 import org.apache.mailet.Mail;
-import org.apache.mailet.MailAddress;
 import org.apache.mailet.base.GenericMatcher;
 import org.nhind.config.rest.AddressService;
 import org.nhindirect.xd.routing.RoutingResolver;
@@ -73,7 +73,6 @@ public class RecipientIsNotXd extends GenericMatcher
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Collection<MailAddress> match(Mail mail) throws MessagingException
     {

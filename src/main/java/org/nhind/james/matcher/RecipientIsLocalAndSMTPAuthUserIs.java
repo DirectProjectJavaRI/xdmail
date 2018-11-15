@@ -35,8 +35,8 @@ import java.util.Collections;
 import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.james.core.MailAddress;
 import org.apache.mailet.Mail;
-import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetContext;
 import org.apache.mailet.base.GenericMatcher;
 import org.slf4j.Logger;
@@ -69,7 +69,6 @@ public class RecipientIsLocalAndSMTPAuthUserIs extends GenericMatcher
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings({ "unchecked", "deprecation" })
     @Override
     public Collection<MailAddress> match(Mail mail) throws MessagingException
     {
@@ -89,7 +88,7 @@ public class RecipientIsLocalAndSMTPAuthUserIs extends GenericMatcher
 
         for (MailAddress recipient : (Collection<MailAddress>) mail.getRecipients())
         {
-            if (mailetContext.isLocalServer(recipient.getHost()) && mailetContext.isLocalUser(recipient.getUser()))
+            if (mailetContext.isLocalServer(recipient.getDomain()) && mailetContext.isLocalEmail(recipient))
                 recipients.add(recipient);
         }
 

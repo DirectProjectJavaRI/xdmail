@@ -29,8 +29,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.james.core.MailAddress;
 import org.apache.mailet.Mail;
-import org.apache.mailet.MailAddress;
 import org.nhind.config.rest.AddressService;
 import org.nhind.mail.service.DocumentRepository;
 import org.nhind.mail.service.XDDeliveryCallback;

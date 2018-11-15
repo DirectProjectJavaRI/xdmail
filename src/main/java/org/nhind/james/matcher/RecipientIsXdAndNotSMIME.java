@@ -34,8 +34,8 @@ import java.util.Collections;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.james.core.MailAddress;
 import org.apache.mailet.Mail;
-import org.apache.mailet.MailAddress;
 import org.apache.mailet.base.GenericMatcher;
 import org.nhind.config.rest.AddressService;
 import org.nhindirect.xd.routing.RoutingResolver;
@@ -73,7 +73,6 @@ public class RecipientIsXdAndNotSMIME extends GenericMatcher {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
     @Override
     public Collection<MailAddress> match(Mail mail) throws MessagingException {
         LOGGER.info("Attempting to match XD recipients");
