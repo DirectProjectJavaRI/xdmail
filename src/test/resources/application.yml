@@ -1,0 +1,8 @@
+spring: 
+  cloud: 
+    stream: 
+      bindings:                
+       
+        direct-xd-delivery-input: 
+          destination: direct-xd-delivery    
+          group: direct-xd-delivery-group                 
