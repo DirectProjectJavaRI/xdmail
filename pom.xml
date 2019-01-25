@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.nhind</groupId>
     <artifactId>xdmail</artifactId>
-    <version>6.0-SNAPSHOT</version>
+    <version>6.0</version>
     <name>NHIN Direct XD* Mail Gateway</name>
     <description>NHIN Direct XD* Mail Gateway</description>
-    <url>http://api.nhindirect.org/x/www/api.nhindirect.org/java/site/xdmail/${project.version}</url>  
+    <url>https://github.com/DirectProjectJavaRI/xdmail</url>  
     <developers>
         <developer>
             <name>Vincent Lewis</name>
@@ -37,14 +37,10 @@
 	   <artifactId>spring-boot-dependencies</artifactId>
 	   <version>2.1.2.RELEASE</version>
 	</parent> 
-  <repositories>
-	    <!-- Temp repository for Spring Boot Milestone -->
-        <repository>
-            <id>spring-milestone</id>
-            <name>Spring Milestone Releases</name>
-            <url>https://repo.spring.io/milestone/</url>
-        </repository>
-  </repositories>      
+    <scm>
+      <url>https://github.com/DirectProjectJavaRI/xdmail.git</url>  
+      <connection>scm:hg:https://github.com/DirectProjectJavaRI/xdmail.git</connection>
+    </scm> 	 
 	<dependencyManagement>
 		<dependencies>
 		  <dependency>
@@ -57,7 +53,7 @@
 		  <dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-parent</artifactId>
-				<version>Greenwich.RC1</version>
+				<version>Greenwich.RELEASE</version>
 				<type>pom</type>
 				<scope>import</scope>
 		  </dependency>  
@@ -124,19 +120,19 @@
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>xd-common</artifactId>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0</version>
             <scope>compile</scope>
         </dependency> 
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>agent</artifactId>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>gateway</artifactId>
-            <version>6.0-SNAPSHOT</version>
+            <version>6.0</version>
             <scope>compile</scope>
         </dependency>          
 		<dependency>
@@ -166,11 +162,21 @@
         </testResources>
 
         <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav</artifactId>
-                <version>RELEASE</version>
-            </extension>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>3.1.0</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh-external</artifactId>
+				<version>3.1.0</version>
+			</extension>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>3.1.0</version>
+			</extension>
         </extensions>
 
         <plugins>
@@ -205,28 +211,6 @@
 		          </execution>
 		        </executions>
 		    </plugin>                  
-            <plugin>
-                <groupId>com.atlassian.maven.plugins</groupId>
-                <artifactId>maven-clover2-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <jdk>1.6</jdk>
-                    <licenseLocation>
-                        ${project.basedir}/../licenses/clover.license
-                    </licenseLocation>
-                    <excludes>
-                        <exclude>**/ccddb/*</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>pre-site</phase>
-                        <goals>
-                            <goal>instrument</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <!--
                 DOXIA does not yet copy resources to the generated-site or site
                 location. Bug DOXIA-355 was submitted in July of 09 and is listed to
@@ -297,19 +281,20 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <!-- 
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.6.1</version>
                 <configuration>
-                    <charset>UTF-8</charset>
-                    <docencoding>UTF-8</docencoding>
-                    <docfilessubdirs>true</docfilessubdirs>
-                    <detectJavaApiLink>true</detectJavaApiLink>
-                    <detectLinks>true</detectLinks>
-                    <source>1.6</source>
-                    <show>protected</show>
+				    <additionalparam>-Xdoclint:none</additionalparam>
+					<charset>UTF-8</charset>
+					<docencoding>UTF-8</docencoding>
+					<docfilessubdirs>true</docfilessubdirs>
+					<detectJavaApiLink>true</detectJavaApiLink>
+					<detectLinks>true</detectLinks>
+					<source>1.8</source>
+					<show>public</show>
                     <excludePackageNames>
                         oasis.names.tc.ebxml_regrep.xsd:ihe.iti.xds_b._2007
                     </excludePackageNames>
@@ -324,6 +309,7 @@
 	              </execution>
 	            </executions>	                 
             </plugin>
+            <!-- for releases only            
 	        <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-gpg-plugin</artifactId>
@@ -338,19 +324,7 @@
                </executions>
             </plugin>       
             -->    
-        </plugins>
-        <pluginManagement>
-           <plugins>
-              <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-release-plugin</artifactId>
-                 <version>2.0</version>
-                 <configuration>
-                    <tagBase>scm:hg:https://nhin-d.googlecode.com/hg/nhin-d/java/tags</tagBase>
-                 </configuration>
-              </plugin>
-           </plugins>
-        </pluginManagement>	        
+        </plugins>       
     </build>
 
     <reporting>
@@ -358,20 +332,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.1</version>
+                <version>2.9</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.6.1</version>
                 <configuration>
-                    <charset>UTF-8</charset>
-                    <docencoding>UTF-8</docencoding>
-                    <docfilessubdirs>true</docfilessubdirs>
-                    <detectJavaApiLink>true</detectJavaApiLink>
-                    <detectLinks>true</detectLinks>
-                    <source>1.6</source>
-                    <show>protected</show>
+				    <additionalparam>-Xdoclint:none</additionalparam>
+					<charset>UTF-8</charset>
+					<docencoding>UTF-8</docencoding>
+					<docfilessubdirs>true</docfilessubdirs>
+					<detectJavaApiLink>true</detectJavaApiLink>
+					<detectLinks>true</detectLinks>
+					<source>1.8</source>
+					<show>public</show>
                     <excludePackageNames>
                         oasis.names.tc.ebxml_regrep.xsd:ihe.iti.xds_b._2007
                     </excludePackageNames>
@@ -393,28 +368,8 @@
                 <artifactId>maven-jxr-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-changelog-plugin</artifactId>
-                <configuration>
-                    <dates>
-                        <!-- Insert the date of the most recent release -->
-                        <date>2007-01-01</date>
-                    </dates>
-                    <outputEncoding>UTF-8</outputEncoding>
-                    <type>date</type>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>clirr-maven-plugin</artifactId>
-                <configuration>
-                    <minSeverity>info</minSeverity>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>1.2</version>
                 <configuration>
                     <effort>Max</effort>
                 </configuration>
@@ -429,16 +384,6 @@
                         <tag>WARN</tag>
                         <tag>@deprecated</tag>
                     </tags>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.atlassian.maven.plugins</groupId>
-                <artifactId>maven-clover2-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <licenseLocation>
-                        ${project.basedir}/../licenses/clover.license
-                    </licenseLocation>
                 </configuration>
             </plugin>
         </plugins>
