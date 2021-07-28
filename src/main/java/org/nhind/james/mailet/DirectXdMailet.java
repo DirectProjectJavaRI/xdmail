@@ -52,10 +52,10 @@ import org.nhindirect.xd.routing.RoutingResolver;
 import org.nhindirect.xd.routing.impl.RoutingResolverImpl;
 import org.nhindirect.xd.transform.MimeXdsTransformer;
 import org.nhindirect.xd.transform.impl.DefaultMimeXdsTransformer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * An Apache James Mailet that converts clinical messages into IHE
@@ -64,6 +64,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * (ITI-41).
  *
  */
+@Slf4j
 public class DirectXdMailet extends AbstractNotificationAwareMailet implements XDDeliveryCallback
 {
 	protected static final String RELIABLE_DELIVERY_OPTION = MDNStandard.DispositionOption_TimelyAndReliable + "=optional,true";
@@ -75,7 +76,6 @@ public class DirectXdMailet extends AbstractNotificationAwareMailet implements X
     private RoutingResolver resolver;
     private XDDeliveryCore deliveryCore;
     protected NotificationProducer notificationProducer;
-	private static final Logger LOGGER = LoggerFactory.getLogger(DirectXdMailet.class);	
 
     
     /*
@@ -86,7 +86,7 @@ public class DirectXdMailet extends AbstractNotificationAwareMailet implements X
     @Override
     public void service(Mail mail) throws MessagingException
     {
-        LOGGER.info("Servicing DirectXdMailet");
+        log.info("Servicing DirectXdMailet");
 
         final SMTPMailMessage smtpMailMessage = mailToSMTPMailMessage(mail);
         
@@ -107,13 +107,13 @@ public class DirectXdMailet extends AbstractNotificationAwareMailet implements X
         // this basically sets the message back to it's original state with SMTP addresses only
         if (getResolver().hasSmtpEndpoints(recipAddresses))
         {
-            LOGGER.info("Recipients include SMTP endpoints");
+            log.info("Recipients include SMTP endpoints");
             
             mail.setRecipients(getSmtpRecips(recipAddresses));
         }
         else
         {
-            LOGGER.info("Recipients do not include SMTP endpoints");
+            log.info("Recipients do not include SMTP endpoints");
             
             // No SMTP addresses, ghost it
             mail.setState(Mail.GHOST);
@@ -139,7 +139,7 @@ public class DirectXdMailet extends AbstractNotificationAwareMailet implements X
     public void init() throws MessagingException
     {
 
-    	LOGGER.info("Initializing DirectXdMailet");
+    	log.info("Initializing DirectXdMailet");
         super.init();
         
         // Get the endpoint URL
@@ -147,7 +147,7 @@ public class DirectXdMailet extends AbstractNotificationAwareMailet implements X
 
         if (StringUtils.isBlank(endpointUrl))
         {
-            LOGGER.error("DirectXdMailet endpoint URL cannot be empty or null.");
+            log.error("DirectXdMailet endpoint URL cannot be empty or null.");
             throw new MessagingException("DirectXdMailet endpoint URL cannot be empty or null.");
         }
         
@@ -287,7 +287,7 @@ public class DirectXdMailet extends AbstractNotificationAwareMailet implements X
 		catch (Throwable t)
 		{
 			// don't kill the process if this fails
-			LOGGER.error("Error sending MDN dispatched message.", t);
+			log.error("Error sending MDN dispatched message.", t);
 		}
 	}
 	

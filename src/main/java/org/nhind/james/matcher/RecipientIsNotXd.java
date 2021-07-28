@@ -39,19 +39,19 @@ import org.apache.mailet.base.GenericMatcher;
 import org.nhind.config.rest.AddressService;
 import org.nhindirect.xd.routing.RoutingResolver;
 import org.nhindirect.xd.routing.impl.RoutingResolverImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Matcher for non-XD mapped recipients.
  * 
  * @author beau
  */
+@Slf4j
 public class RecipientIsNotXd extends GenericMatcher
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecipientIsNotXd.class);	
+{	
     private RoutingResolver routingResolver;
     protected ApplicationContext ctx;
     
@@ -61,13 +61,13 @@ public class RecipientIsNotXd extends GenericMatcher
     @Override
     public void init()
     {
-        LOGGER.info("Initializing RecipientIsNotXd matcher");
+        log.info("Initializing RecipientIsNotXd matcher");
 
         ctx = new ClassPathXmlApplicationContext("contexts/STAMailet.xml");
         
         routingResolver = new RoutingResolverImpl(ctx.getBean(AddressService.class));
 
-        LOGGER.info("Initialized RecipientIsNotXd matcher");
+        log.info("Initialized RecipientIsNotXd matcher");
     }
 
     /**
@@ -76,7 +76,7 @@ public class RecipientIsNotXd extends GenericMatcher
     @Override
     public Collection<MailAddress> match(Mail mail) throws MessagingException
     {
-        LOGGER.info("Attempting to match non-XD recipients");
+        log.info("Attempting to match non-XD recipients");
 
         Collection<MailAddress> recipients = new ArrayList<MailAddress>();
 
@@ -89,10 +89,10 @@ public class RecipientIsNotXd extends GenericMatcher
         }
 
         if (recipients.isEmpty())
-            LOGGER.info("Matched no recipients");
+            log.info("Matched no recipients");
         else
             for (MailAddress addr : recipients)
-                LOGGER.info("Matched recipient " + addr.toString());
+                log.info("Matched recipient " + addr.toString());
 
         return recipients;
     }

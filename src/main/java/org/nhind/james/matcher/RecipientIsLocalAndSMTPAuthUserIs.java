@@ -39,22 +39,21 @@ import org.apache.james.core.MailAddress;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailetContext;
 import org.apache.mailet.base.GenericMatcher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Matcher for local recipients when the auth user matches a given user.
  * 
  * @author beau
  */
+@Slf4j
 public class RecipientIsLocalAndSMTPAuthUserIs extends GenericMatcher
 {
     /**
      * The mail attribute holding the SMTP AUTH user name, if any.
      */
     private final static String SMTP_AUTH_USER_ATTRIBUTE_NAME = "org.apache.james.SMTPAuthUser";
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecipientIsLocalAndSMTPAuthUserIs.class);	
 
     private String user;
 
@@ -72,13 +71,13 @@ public class RecipientIsLocalAndSMTPAuthUserIs extends GenericMatcher
     @Override
     public Collection<MailAddress> match(Mail mail) throws MessagingException
     {
-        LOGGER.info("Servicing RecipientIsLocalAndSMTPAuthUserIs matcher");
+        log.info("Servicing RecipientIsLocalAndSMTPAuthUserIs matcher");
 
         String authUser = (String) mail.getAttribute(SMTP_AUTH_USER_ATTRIBUTE_NAME);
 
         if (authUser == null || !StringUtils.equalsIgnoreCase(user, authUser))
         {
-            LOGGER.info("Auth user is not " + user + ", skipping");
+            log.info("Auth user is not " + user + ", skipping");
             return Collections.<MailAddress> emptyList();
         }
 
@@ -93,10 +92,10 @@ public class RecipientIsLocalAndSMTPAuthUserIs extends GenericMatcher
         }
 
         if (recipients.isEmpty())
-            LOGGER.info("Matched no recipients");
+            log.info("Matched no recipients");
         else
             for (MailAddress addr : recipients)
-                LOGGER.info("Matched recipient " + addr.toString());
+                log.info("Matched recipient " + addr.toString());
 
         return recipients;
     }

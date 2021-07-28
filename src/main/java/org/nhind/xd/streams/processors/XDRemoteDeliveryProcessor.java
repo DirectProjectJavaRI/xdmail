@@ -1,13 +1,13 @@
 package org.nhind.xd.streams.processors;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.nhind.mail.service.XDDeliveryCallback;
 import org.nhind.mail.service.XDDeliveryCore;
-import org.nhind.xd.streams.XDRemoteDeliveryInput;
 import org.nhindirect.common.mail.SMTPMailMessage;
 import org.nhindirect.common.mail.streams.SMTPMailMessageConverter;
 import org.nhindirect.common.tx.model.Tx;
@@ -15,14 +15,15 @@ import org.nhindirect.gateway.smtp.dsn.DSNCreator;
 import org.nhindirect.gateway.streams.SmtpGatewayMessageSource;
 import org.nhindirect.stagent.NHINDAddressCollection;
 import org.nhindirect.stagent.mail.notifications.NotificationMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 
-@EnableBinding(XDRemoteDeliveryInput.class)
+import lombok.extern.slf4j.Slf4j;
+
+@Configuration
+@Slf4j
 public class XDRemoteDeliveryProcessor implements XDDeliveryCallback
 {
 	@Autowired
@@ -34,14 +35,22 @@ public class XDRemoteDeliveryProcessor implements XDDeliveryCallback
 	@Autowired
 	protected DSNCreator dsnCreator;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(XDRemoteDeliveryProcessor.class);	
-	
-	@StreamListener(target = XDRemoteDeliveryInput.XD_DELIVERY_MESSAGE_INPUT)
-	public void xdRemotelyDeliverMessage(Message<?> streamMsg) throws MessagingException
+	@Bean
+	public Consumer<Message<?>> directXDDeliveryInput()
 	{
-		final SMTPMailMessage smtpMessage = SMTPMailMessageConverter.fromStreamMessage(streamMsg);
-        
-        deliveryCore.processAndDeliverXDMessage(smtpMessage);
+		return streamMsg -> 
+		{
+			try
+			{
+				final SMTPMailMessage smtpMessage = SMTPMailMessageConverter.fromStreamMessage(streamMsg);
+		        
+		        deliveryCore.processAndDeliverXDMessage(smtpMessage);
+			}
+			catch (MessagingException e)
+			{
+				throw new RuntimeException(e);
+			}
+		};
 	}
 	
 	public void sendNotificationMessage(NotificationMessage message) throws MessagingException
@@ -61,7 +70,7 @@ public class XDRemoteDeliveryProcessor implements XDDeliveryCallback
 		catch (Throwable e)
 		{
 			// don't kill the process if this fails
-			LOGGER.error("Error sending DSN failure message.", e);
+			log.error("Error sending DSN failure message.", e);
 		}
 	}	
 }

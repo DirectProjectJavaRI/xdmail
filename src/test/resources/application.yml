@@ -1,8 +1,12 @@
 spring: 
   cloud: 
     stream: 
+      source: direct-smtp-gateway-message
+      function:
+        definition: directXDDeliveryInput
+        
       bindings:                
        
-        direct-xd-delivery-input: 
+        directXDDeliveryInput-in-0: 
           destination: direct-xd-delivery    
           group: direct-xd-delivery-group                 
