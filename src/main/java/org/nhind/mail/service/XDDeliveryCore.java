@@ -23,15 +23,14 @@ import org.nhindirect.stagent.mail.Message;
 import org.nhindirect.stagent.mail.notifications.NotificationMessage;
 import org.nhindirect.xd.routing.RoutingResolver;
 import org.nhindirect.xd.transform.MimeXdsTransformer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class XDDeliveryCore
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(XDDeliveryCore.class);		
-	
+
 	protected final RoutingResolver resolver;
 	
 	protected final XDDeliveryCallback callback;
@@ -61,7 +60,7 @@ public class XDDeliveryCore
 	
 	public boolean processAndDeliverXDMessage(SMTPMailMessage smtpMailMessage) throws MessagingException
 	{
-        LOGGER.info("Servicing process XD Message.");
+        log.info("Servicing process XD Message.");
 
         boolean successfulTransaction = false;
 		final boolean isReliableAndTimely = TxUtil.isReliableAndTimelyRequested(smtpMailMessage.getMimeMessage());
@@ -85,7 +84,7 @@ public class XDDeliveryCore
         // Service XD* addresses
        if (resolver.hasXdEndpoints(recipAddresses))
         {
-            LOGGER.info("Recipients include XD endpoints");
+            log.info("Recipients include XD endpoints");
             
             try
             {
@@ -108,8 +107,8 @@ public class XDDeliveryCore
 
                     if (!isSuccessful(response))
                     {
-                        LOGGER.error("DirectXdMailet failed to deliver XD message.");
-                        LOGGER.error(response);
+                        log.error("DirectXdMailet failed to deliver XD message.");
+                        log.error(response);
                         
                     }
                     else
@@ -123,7 +122,7 @@ public class XDDeliveryCore
 	        						notificationProducer.produce(new Message(msg), xdRecipients.toInternetAddressCollection());
 	        				if (notifications != null && notifications.size() > 0)
 	        				{
-	        					LOGGER.debug("Sending MDN \"dispathed\" messages");
+	        					log.debug("Sending MDN \"dispathed\" messages");
 	        					// create a message for each notification and put it on James "stack"
 	        					for (NotificationMessage message : notifications)
 	        					{
@@ -134,7 +133,7 @@ public class XDDeliveryCore
 	        						catch (Throwable t)
 	        						{
 	        							// don't kill the process if this fails
-	        							LOGGER.error("Error sending MDN dispatched message.", t);
+	        							log.error("Error sending MDN dispatched message.", t);
 	        						}
 	        					}
 	        				}
@@ -144,7 +143,7 @@ public class XDDeliveryCore
             }
             catch (Throwable e)
             {
-                LOGGER.error("DirectXdMailet delivery failure", e);
+                log.error("DirectXdMailet delivery failure", e);
             }
         }
         

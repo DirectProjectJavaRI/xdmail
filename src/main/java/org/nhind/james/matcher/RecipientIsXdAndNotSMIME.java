@@ -40,19 +40,19 @@ import org.apache.mailet.base.GenericMatcher;
 import org.nhind.config.rest.AddressService;
 import org.nhindirect.xd.routing.RoutingResolver;
 import org.nhindirect.xd.routing.impl.RoutingResolverImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Matcher for recipients that are mapped to XD addresses on non-S/MIME mails.
  * 
  * @author beau
  */
+@Slf4j
 public class RecipientIsXdAndNotSMIME extends GenericMatcher {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecipientIsXdAndNotSMIME.class);	
     private RoutingResolver routingResolver;
     protected ApplicationContext ctx;
 
@@ -61,13 +61,13 @@ public class RecipientIsXdAndNotSMIME extends GenericMatcher {
      */
     @Override
     public void init() {
-        LOGGER.info("Initializing RecipientIsXdAndNotSMIME matcher");
+        log.info("Initializing RecipientIsXdAndNotSMIME matcher");
 
         ctx = new ClassPathXmlApplicationContext("contexts/XDMailet.xml");
         
         routingResolver = new RoutingResolverImpl(ctx.getBean(AddressService.class));
 
-        LOGGER.info("Initialized RecipientIsXdAndNotSMIME matcher");
+        log.info("Initialized RecipientIsXdAndNotSMIME matcher");
     }
 
     /**
@@ -75,14 +75,14 @@ public class RecipientIsXdAndNotSMIME extends GenericMatcher {
      */
     @Override
     public Collection<MailAddress> match(Mail mail) throws MessagingException {
-        LOGGER.info("Attempting to match XD recipients");
+        log.info("Attempting to match XD recipients");
 
         Collection<MailAddress> recipients = new ArrayList<MailAddress>();
 
         MimeMessage message = mail.getMessage();
 
         if (message.isMimeType("application/x-pkcs7-mime") || message.isMimeType("application/pkcs7-mime")) {
-            LOGGER.info("MimeMessage is SMIME, skipping");
+            log.info("MimeMessage is SMIME, skipping");
             return Collections.<MailAddress>emptyList();
         }
 
@@ -93,10 +93,10 @@ public class RecipientIsXdAndNotSMIME extends GenericMatcher {
         }
 
         if (recipients.isEmpty()) {
-            LOGGER.info("Matched no recipients");
+            log.info("Matched no recipients");
         } else {
             for (MailAddress addr : recipients) {
-                LOGGER.info("Matched recipient " + addr.toString());
+                log.info("Matched recipient " + addr.toString());
             }
         }
 

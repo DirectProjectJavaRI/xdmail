@@ -28,6 +28,10 @@
 
 package org.nhind.james.mailet;
 
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,13 +43,13 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import junit.framework.TestCase;
-
 import org.apache.james.core.MailAddress;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailetConfig;
 import org.apache.mailet.PerRecipientHeaders;
 import org.apache.mailet.PerRecipientHeaders.Header;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.nhind.testutils.MockMailetConfig;
 import org.nhindirect.xd.transform.MimeXdsTransformer;
 import org.nhindirect.xd.transform.impl.DefaultMimeXdsTransformer;
@@ -56,41 +60,13 @@ import org.nhindirect.xd.transform.impl.DefaultMimeXdsTransformer;
  * 
  * @author beau
  */
-public class NHINDMailetTest extends TestCase {
-
-    /**
-     * Constructor.
-     * 
-     * @param testName
-     *            The test name.
-     */
-    public NHINDMailetTest(String testName) {
-        super(testName);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#setUp()
-     */
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see junit.framework.TestCase#tearDown()
-     */
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
+public class NHINDMailetTest 
+{
 
     /**
      * Test the init method.
      */
+	@BeforeEach
     public void testInit() 
     {
         final String endpointUrl = "http://www.endpoint.url/";
@@ -135,17 +111,18 @@ public class NHINDMailetTest extends TestCase {
     /**
      * Test the getMimeXDSTransformer and setMimeXDSTransformer methods.
      */
+	@Test
     public void testGetSetMimeXDSTransformer() {
         DirectXdMailet mailet = new DirectXdMailet();
         MimeXdsTransformer transformer = null;
 
         transformer = mailet.getMimeXDSTransformer();
-        assertTrue("MimeXDSTransformer is null", transformer != null);
+        assertTrue(transformer != null);
 
         transformer = new DefaultMimeXdsTransformer();
         mailet.setMimeXDSTransformer(transformer);
         MimeXdsTransformer output = mailet.getMimeXDSTransformer();
-        assertTrue("Output references a different object", transformer == output);
+        assertTrue(transformer == output);
     }
     
     // TODO: Come back and redo this unit test to support the new method
@@ -344,6 +321,12 @@ public class NHINDMailetTest extends TestCase {
 		@Override
 		public PerRecipientHeaders getPerRecipientSpecificHeaders()
 		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Mail duplicate() throws MessagingException {
 			// TODO Auto-generated method stub
 			return null;
 		}

@@ -22,6 +22,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 package org.nhind.mail.service;
 
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -31,21 +32,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.nhindirect.xd.proxy.DocumentRepositoryProxy;
 import org.nhindirect.xd.soap.DirectSOAPHandlerResolver;
 import org.nhindirect.xd.soap.SafeThreadData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Document repository class for handling XDS webservice calls.
  * 
  * @author Vince
  */
+@Slf4j
 public class DocumentRepository
 {
-    /**
-     * Class logger.
-     */
-	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRepository.class);
-
     /**
      * Forward a given ProvideAndRegisterDocumentSetRequestType object to the
      * given XDR endpoint.
@@ -63,7 +58,7 @@ public class DocumentRepository
         if (prds == null)
             throw new IllegalArgumentException("ProvideAndRegisterDocumentSetRequestType must not be null");
 
-        LOGGER.info(" SENDING TO ENDPOINT " + endpoint);
+        log.info(" SENDING TO ENDPOINT " + endpoint);
 
         /**
          * Get thread data by Thread ID
@@ -82,7 +77,7 @@ public class DocumentRepository
         //
         // QName qname = new QName("urn:ihe:iti:xds-b:2007", "ProvideAndRegisterDocumentSet_bRequest");
         // String body = XMLUtils.marshal(qname, prds, ihe.iti.xds_b._2007.ObjectFactory.class);
-        // LOGGER.info(body);
+        // log.info(body);
         
         DocumentRepositoryProxy proxy = new DocumentRepositoryProxy(endpoint, new DirectSOAPHandlerResolver());
 
@@ -96,7 +91,7 @@ public class DocumentRepository
                 throw new Exception("Failure Returned from XDR forward");
             }
             SafeThreadData.clean(threadID);
-            LOGGER.info("Handling complete");
+            log.info("Handling complete");
 
             return response;
         } catch (Exception ex){
