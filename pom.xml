@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.nhind</groupId>
     <artifactId>xdmail</artifactId>
-    <version>8.1.0-SNAPSHOT</version>
+    <version>8.1.2-SNAPSHOT</version>
     <name>NHIN Direct XD* Mail Gateway</name>
     <description>NHIN Direct XD* Mail Gateway</description>
     <url>https://github.com/DirectProjectJavaRI/xdmail</url>  
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>xd-common</artifactId>
-            <version>8.0.0</version>
+            <version>8.1.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency> 
         <dependency>
@@ -106,7 +106,7 @@
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>gateway</artifactId>
-            <version>8.0.0</version>
+            <version>8.1.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>          
 		<dependency>
@@ -130,7 +130,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
 			<scope>test</scope>
-		</dependency>			                
+		</dependency>
+      <dependency>
+        <groupId>javax.xml.ws</groupId>
+        <artifactId>jaxws-api</artifactId>
+        <version>2.3.1</version>
+      </dependency>
     </dependencies>
 
     <build>
@@ -305,24 +310,25 @@
         </plugins>
     </reporting>
 
-    <distributionManagement>
-        <site>
-            <id>nhind-site</id>
-            <name>NHIN Direct API publication site</name>
-            <url>sftp://api.nhindirect.org/x/www/api.nhindirect.org/java/site/xdmail/${project.version}
-            </url>
-        </site>
-        <snapshotRepository>
-            <id>sonatype-snapshot</id>
-            <name>Sonatype OSS Maven SNAPSHOT Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
-         </snapshotRepository>
-         <repository>
-            <id>sonatype-release</id>
-            <name>Sonatype OSS Maven Release Repositor</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-            <uniqueVersion>false</uniqueVersion>
-         </repository>        
-    </distributionManagement>
+  <distributionManagement>
+    <site>
+      <id>nhind-site</id>
+      <name>NHIN Direct API publication site</name>
+      <url>sftp://api.nhindirect.org/x/www/api.nhindirect.org/java/site/xdmail/${project.version}
+      </url>
+    </site>
+    <snapshotRepository>
+      <id>sonatype-snapshot</id>
+      <name>Sonatype OSS Maven SNAPSHOT Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-release</id>
+      <name>Sonatype OSS Maven Release Repositor</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+  </distributionManagement>
+
 </project>
