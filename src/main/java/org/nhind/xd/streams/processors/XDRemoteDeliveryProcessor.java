@@ -43,8 +43,9 @@ public class XDRemoteDeliveryProcessor implements XDDeliveryCallback
 			try
 			{
 				final SMTPMailMessage smtpMessage = SMTPMailMessageConverter.fromStreamMessage(streamMsg);
-		        
-		        deliveryCore.processAndDeliverXDMessage(smtpMessage);
+
+            log.debug("XDRemoteDeliveryProcessor processing message from " + smtpMessage.getMailFrom().toString());
+            deliveryCore.processAndDeliverXDMessage(smtpMessage);
 			}
 			catch (MessagingException e)
 			{

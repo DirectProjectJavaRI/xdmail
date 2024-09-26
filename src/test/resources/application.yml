@@ -1,4 +1,4 @@
-spring: 
+spring:
   cloud: 
     stream: 
       source: direct-smtp-gateway-message
@@ -9,4 +9,12 @@ spring:
        
         directXDDeliveryInput-in-0: 
           destination: direct-xd-delivery    
-          group: direct-xd-delivery-group                 
+          group: direct-xd-delivery-group
+
+  main:
+    allow-bean-definition-overriding: true
+
+direct:
+  gateway:
+    xd:
+      endpointurl: http://localhost:8080/xd/services/DocumentRepository_Service

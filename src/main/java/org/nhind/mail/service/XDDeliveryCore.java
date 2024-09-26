@@ -103,6 +103,7 @@ public class XDDeliveryCore
 
                 for (String directTo : recipAddresses)
                 {
+                    log.debug("GOING TO SEND TO " + resolver.getXdEndpoints(recipAddresses).toString() + " OVER " + endpointUrl);
                     String response = documentRepository.forwardRequest(endpointUrl, request, directTo, sender.toString());
 
                     if (!isSuccessful(response))

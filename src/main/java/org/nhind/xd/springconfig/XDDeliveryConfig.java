@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class XDDeliveryConfig
 {
-	@Value("direct.gateway.xd.endpointUrl")
+	@Value("${direct.gateway.xd.endpointUrl: http://localhost:8080/xd/services/DocumentRepository_Service}")
 	protected String endpointURL;
 	
 	@Autowired
