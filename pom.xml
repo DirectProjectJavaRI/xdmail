@@ -94,19 +94,19 @@
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>xd-common</artifactId>
-            <version>8.0.0</version>
+            <version>8.1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency> 
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>agent</artifactId>
-            <version>8.0.0</version>
+            <version>8.1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>gateway</artifactId>
-            <version>8.0.0</version>
+            <version>8.1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>          
 		<dependency>
