@@ -63,7 +63,7 @@ public class DocumentRepository
         /**
          * Get thread data by Thread ID
          */
-        Long threadID = Thread.currentThread().getId();
+        Long threadID = Thread.currentThread().threadId();
         SafeThreadData threadData = SafeThreadData.GetThreadInstance(threadID);
         threadData.setAction("urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b");
         threadData.setMessageId(UUID.randomUUID().toString());

@@ -1,6 +1,6 @@
 package org.nhind.mail.service;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 import org.nhindirect.common.tx.model.Tx;
 import org.nhindirect.stagent.NHINDAddressCollection;
