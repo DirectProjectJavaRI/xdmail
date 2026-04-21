@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Import;
 @Import(XDRemoteDeliveryProcessor.class)
 public class XDMailAutoConfiguration
 {
-	@Value("direct.gateway.xd.endpointUrl")
+	@Value("${direct.gateway.xd.endpointUrl:}")
 	protected String endpointURL;
 	
 	@Autowired
@@ -39,6 +39,7 @@ public class XDMailAutoConfiguration
 	@ConditionalOnMissingBean
 	XDDeliveryCore xdDeliveryCore(XDDeliveryCallback xdDeliveryCallback)
 	{
+		
 		final ReliableDispatchedNotificationProducer notificationProducer = 
 				new ReliableDispatchedNotificationProducer(new NotificationSettings(true, "Direct XD Delivery Agent", "Your message was successfully dispatched."));
 		
