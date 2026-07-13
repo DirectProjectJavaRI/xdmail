@@ -49,9 +49,14 @@ public class DocumentRepository
      *            A URL representing an XDR endpoint.
      * @param prds
      *            The ProvideAndRegisterDocumentSetRequestType object.
+     * @param messageId
+     *            The Message-ID of the originating Direct message, used to populate the
+     *            WS-Addressing MessageID header per the XDR and XDM for Direct Messaging
+     *            Specification (Section 4.3: "Message-ID MUST populate the MessageID
+     *            WS-Addressing header"). If blank, a random UUID is used instead.
      * @throws Exception
      */
-    public String forwardRequest(String endpoint, ProvideAndRegisterDocumentSetRequestType prds, String directTo, String directFrom) throws Exception
+    public String forwardRequest(String endpoint, ProvideAndRegisterDocumentSetRequestType prds, String directTo, String directFrom, String messageId) throws Exception
     {
         if (StringUtils.isBlank(endpoint))
             throw new IllegalArgumentException("Endpoint must not be blank");
@@ -66,7 +71,7 @@ public class DocumentRepository
         Long threadID = Thread.currentThread().threadId();
         SafeThreadData threadData = SafeThreadData.GetThreadInstance(threadID);
         threadData.setAction("urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b");
-        threadData.setMessageId(UUID.randomUUID().toString());
+        threadData.setMessageId(StringUtils.isNotBlank(messageId) ? messageId : UUID.randomUUID().toString());
         threadData.setTo(endpoint);
         threadData.setDirectFrom(directFrom);
         threadData.setDirectTo(directTo);

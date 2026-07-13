@@ -71,6 +71,7 @@ public class XDDeliveryCore
         final NHINDAddressCollection xdRecipients = new NHINDAddressCollection();
         final NHINDAddressCollection failedRecipients = new NHINDAddressCollection();
         final MimeMessage msg = smtpMailMessage.getMimeMessage();
+        final String mimeMessageId = StringUtils.strip(msg.getMessageID(), "<>");
 
         final NHINDAddress sender = MessageUtils.getMailSender(smtpMailMessage);
         Tx txToTrack = null;
@@ -117,7 +118,7 @@ public class XDDeliveryCore
                     final List<String> groupAddresses = entry.getValue();
                     final String groupDirectTo = String.join(",", groupAddresses);
 
-                    String response = documentRepository.forwardRequest(groupEndpoint, request, groupDirectTo, sender.toString());
+                    String response = documentRepository.forwardRequest(groupEndpoint, request, groupDirectTo, sender.toString(), mimeMessageId);
 
                     if (!isSuccessful(response))
                     {
