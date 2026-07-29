@@ -64,7 +64,8 @@ public class XDRDeliveryIntegrationTest {
                 new DefaultMimeXdsTransformer(new SyntheticMetadataDefaults()),
                 new DocumentRepository(),
                 notificationProducer,
-                XDR_ENDPOINT);
+                XDR_ENDPOINT,
+                List.of());
 
         Session session = Session.getDefaultInstance(new Properties());
         MimeMessage mimeMessage = new MimeMessage(session);

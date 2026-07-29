@@ -1,5 +1,7 @@
 package org.nhind.xd.autoconfig;
 
+import java.util.List;
+
 import org.nhind.mail.service.DocumentRepository;
 import org.nhind.mail.service.XDDeliveryCallback;
 import org.nhind.mail.service.XDDeliveryCore;
@@ -37,6 +39,9 @@ public class XDMailAutoConfiguration
 	@Value("${direct.xd.documents.syntheticdata.practiceSettingCode:" + SyntheticMetadataDefaults.DEFAULT_PRACTICE_SETTING_CODE + "}")
 	protected String syntheticPracticeSettingCode;
 
+	@Value("${direct.gateway.xd.notifications.suppressNotificationsForAddresses:}")
+	protected List<String> suppressNotificationAddresses;
+
 	@Autowired
 	protected RoutingResolver resolver;
 	
@@ -61,6 +66,7 @@ public class XDMailAutoConfiguration
 				syntheticHealthcareFacilityTypeCode, syntheticPracticeSettingCode);
 
 		return new XDDeliveryCore(resolver, xdDeliveryCallback, new DefaultTxDetailParser(),
-				new DefaultMimeXdsTransformer(syntheticDefaults), new DocumentRepository(), notificationProducer, endpointURL);
+				new DefaultMimeXdsTransformer(syntheticDefaults), new DocumentRepository(), notificationProducer, endpointURL,
+				suppressNotificationAddresses);
 	}	
 }

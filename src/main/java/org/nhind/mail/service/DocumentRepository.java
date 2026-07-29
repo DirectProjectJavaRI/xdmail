@@ -44,7 +44,7 @@ public class DocumentRepository
     /**
      * Forward a given ProvideAndRegisterDocumentSetRequestType object to the
      * given XDR endpoint.
-     * 
+     *
      * @param endpoint
      *            A URL representing an XDR endpoint.
      * @param prds
@@ -57,6 +57,31 @@ public class DocumentRepository
      * @throws Exception
      */
     public String forwardRequest(String endpoint, ProvideAndRegisterDocumentSetRequestType prds, String directTo, String directFrom, String messageId) throws Exception
+    {
+        return forwardRequest(endpoint, prds, directTo, directFrom, messageId, null);
+    }
+
+    /**
+     * Forward a given ProvideAndRegisterDocumentSetRequestType object to the
+     * given XDR endpoint.
+     *
+     * @param endpoint
+     *            A URL representing an XDR endpoint.
+     * @param prds
+     *            The ProvideAndRegisterDocumentSetRequestType object.
+     * @param messageId
+     *            The Message-ID of the originating Direct message, used to populate the
+     *            WS-Addressing MessageID header per the XDR and XDM for Direct Messaging
+     *            Specification (Section 4.3: "Message-ID MUST populate the MessageID
+     *            WS-Addressing header"). If blank, a random UUID is used instead.
+     * @param notificationRelatesTo
+     *            For an XDR notification message (an MDN or DSN converted to a Direct
+     *            notification), the Message-ID of the original message the notification relates
+     *            to. Populates the direct:addressBlock/notification relatesTo attribute. Null for
+     *            normal (non-notification) messages.
+     * @throws Exception
+     */
+    public String forwardRequest(String endpoint, ProvideAndRegisterDocumentSetRequestType prds, String directTo, String directFrom, String messageId, String notificationRelatesTo) throws Exception
     {
         if (StringUtils.isBlank(endpoint))
             throw new IllegalArgumentException("Endpoint must not be blank");
@@ -75,6 +100,7 @@ public class DocumentRepository
         threadData.setTo(endpoint);
         threadData.setDirectFrom(directFrom);
         threadData.setDirectTo(directTo);
+        threadData.setNotificationRelatesTo(notificationRelatesTo);
         threadData.save();
 
 
