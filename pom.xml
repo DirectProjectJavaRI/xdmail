@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.nhind</groupId>
     <artifactId>xdmail</artifactId>
-    <version>9.0.0-SNAPSHOT</version>
+    <version>9.0.0</version>
     <name>NHIN Direct XD* Mail Gateway</name>
     <description>NHIN Direct XD* Mail Gateway</description>
     <url>https://github.com/DirectProjectJavaRI/xdmail</url>  
@@ -69,13 +69,13 @@
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>xd-common</artifactId>
-            <version>9.0.0-SNAPSHOT</version>
+            <version>9.0.0</version>
             <scope>compile</scope>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>gateway</artifactId>
-            <version>9.0.0-SNAPSHOT</version>
+            <version>9.0.0</version>
             <scope>compile</scope>
         </dependency>          
 		<dependency>
@@ -197,7 +197,7 @@
 	              </execution>
 	            </executions>	                 
             </plugin>
-            <!-- for releases only            
+            <!-- for releases only
 	        <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-gpg-plugin</artifactId>
@@ -210,8 +210,8 @@
                      </goals>
                  </execution>
                </executions>
-            </plugin>       
-            -->    
+            </plugin>
+            -->
 	        <plugin>
 	          <groupId>org.sonatype.central</groupId>
 	          <artifactId>central-publishing-maven-plugin</artifactId>
