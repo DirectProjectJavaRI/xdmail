@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.nhind</groupId>
     <artifactId>xdmail</artifactId>
-    <version>8.1.0</version>
+    <version>9.0.0</version>
     <name>NHIN Direct XD* Mail Gateway</name>
     <description>NHIN Direct XD* Mail Gateway</description>
     <url>https://github.com/DirectProjectJavaRI/xdmail</url>  
@@ -28,17 +28,14 @@
           <name>New BSD License</name>
           <url>http://nhindirect.org/BSDLicense</url>
        </license>
-    </licenses>
-   <properties>
-      <apache-james.version>3.2.0</apache-james.version>
-   </properties>       
+    </licenses>   
    <prerequisites>
         <maven>3.5.0</maven>
    </prerequisites>  	    
    <parent>
 	   <groupId>org.springframework.boot</groupId>
 	   <artifactId>spring-boot-dependencies</artifactId>
-	   <version>2.5.2</version>
+	   <version>4.1.0</version>
 	   <relativePath />
    </parent>
     <scm>
@@ -48,16 +45,9 @@
 	<dependencyManagement>
 		<dependencies>
 		  <dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>2.5.2</version>
-				<type>pom</type>
-				<scope>import</scope>
-		  </dependency>		
-		  <dependency>
 				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-parent</artifactId>
-				<version>2020.0.3</version>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>2025.1.2</version>
 				<type>pom</type>
 				<scope>import</scope>
 		  </dependency>  
@@ -73,40 +63,19 @@
 			<artifactId>spring-cloud-stream</artifactId>
 		</dependency>	    	
 		<dependency>
-		    <groupId>org.apache.james</groupId>
-		    <artifactId>apache-mailet-base</artifactId>
-		    <version>${apache-james.version}</version>	    
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.james</groupId>
-		    <artifactId>apache-mailet-api</artifactId>
-		    <version>${apache-james.version}</version>	    
-		</dependency>	
-		<dependency>
-		    <groupId>org.apache.james</groupId>
-		    <artifactId>james-server-mailets</artifactId>
-		    <version>${apache-james.version}</version>	    
-		</dependency>	
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>  	
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>xd-common</artifactId>
-            <version>8.1.0</version>
-            <scope>compile</scope>
-        </dependency> 
-        <dependency>
-            <groupId>org.nhind</groupId>
-            <artifactId>agent</artifactId>
-            <version>8.1.0</version>
+            <version>9.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.nhind</groupId>
             <artifactId>gateway</artifactId>
-            <version>8.1.0</version>
+            <version>9.0.0</version>
             <scope>compile</scope>
         </dependency>          
 		<dependency>
@@ -121,16 +90,19 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-stream</artifactId>
-		    <type>test-jar</type>
+		    <artifactId>spring-cloud-stream-test-binder</artifactId>
 		    <scope>test</scope>
-		    <classifier>test-binder</classifier>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
 			<scope>test</scope>
-		</dependency>			                
+		</dependency>		                
+	    <dependency>
+	       <groupId>io.r2dbc</groupId>
+	       <artifactId>r2dbc-h2</artifactId>
+	       <scope>test</scope>
+	    </dependency>		
     </dependencies>
 
     <build>
@@ -176,8 +148,8 @@
                     <archive>
                         <index />
                     </archive>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -187,7 +159,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.1.1</version>
             </plugin>
 		    <plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
@@ -210,7 +181,7 @@
 					<docfilessubdirs>true</docfilessubdirs>
 					<detectJavaApiLink>true</detectJavaApiLink>
 					<detectLinks>true</detectLinks>
-					<source>1.8</source>
+					<source>17</source>
 					<show>public</show>
                     <excludePackageNames>
                         oasis.names.tc.ebxml_regrep.xsd:ihe.iti.xds_b._2007
@@ -226,7 +197,7 @@
 	              </execution>
 	            </executions>	                 
             </plugin>
-            <!-- for releases only            
+            <!-- for releases only
 	        <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-gpg-plugin</artifactId>
@@ -239,8 +210,8 @@
                      </goals>
                  </execution>
                </executions>
-            </plugin>       
-            -->    
+            </plugin>
+            -->
 	        <plugin>
 	          <groupId>org.sonatype.central</groupId>
 	          <artifactId>central-publishing-maven-plugin</artifactId>
@@ -269,7 +240,7 @@
 					<docfilessubdirs>true</docfilessubdirs>
 					<detectJavaApiLink>true</detectJavaApiLink>
 					<detectLinks>true</detectLinks>
-					<source>1.8</source>
+					<source>17</source>
 					<show>public</show>
                     <excludePackageNames>
                         oasis.names.tc.ebxml_regrep.xsd:ihe.iti.xds_b._2007
@@ -280,7 +251,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <configuration>
-                    <targetJdk>1.8</targetJdk>
+                    <targetJdk>17</targetJdk>
                 </configuration>
             </plugin>
             <plugin>
@@ -290,7 +261,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.1.1</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

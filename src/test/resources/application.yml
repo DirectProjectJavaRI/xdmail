@@ -1,9 +1,9 @@
 spring: 
   cloud: 
+    function:
+      definition: directXDDeliveryInput
     stream: 
-      source: direct-smtp-gateway-message
-      function:
-        definition: directXDDeliveryInput
+      output-bindings: direct-smtp-gateway-message
         
       bindings:                
        
